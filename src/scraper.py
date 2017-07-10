@@ -111,16 +111,15 @@ def pages(driver):
         old = driver.find_element_by_css_selector('body').get_attribute(
             'innerHTML'
         )
+        counter = driver.find_element_by_css_selector(
+            '''#search_results_table_paginate > span >
+            a.fg-button.ui-button.ui-state-default.ui-state-disabled'''
+        ).get_attribute('innerHTML')
+        yield int(counter)
         logger.info('Fetching new page')
         driver.find_element_by_css_selector(
             '#search_results_table_next'
         ).click()
-        counter = driver.find_element_by_css_selector(
-                '''#search_results_table_paginate > span >
-                a.fg-button.ui-button.ui-state-default.ui-state-disabled'''
-        ).get_attribute('innerHTML')
-        # yield int(counter), maxcount
-        yield int(counter)
         new = driver.find_element_by_css_selector('body').get_attribute(
             'innerHTML'
         )
