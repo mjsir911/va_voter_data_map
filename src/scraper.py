@@ -130,8 +130,13 @@ def pages(driver):
 
 if __name__ == '__main__':
     browser = init()
-    for year in years(browser, [2014, 2013]):
+    for year in years(browser, [2016]):
         for i in pages(browser):
             print(year, i)
-            for row in browser.find_elements_by_css_selector('tr.election_item'):
-                getCSV(row)
+            for row in browser.find_elements_by_css_selector(
+                    'tr.election_item'
+            ):
+                tr_id = row.get_attribute('id')
+                tr_id = tr_id.replace('election-id-', '')
+                assert tr_id.isdigit()
+                print(tr_id)
