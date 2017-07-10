@@ -26,7 +26,7 @@ URL = 'http://historical.elections.virginia.gov'
 DATA_DIR = 'data/'
 logger = logging.getLogger()
 logging.basicConfig()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 def debug(driver):
