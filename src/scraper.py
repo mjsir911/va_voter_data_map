@@ -64,6 +64,7 @@ def getCSV(tablerow):
     tr_id = tablerow.get_attribute('id')
     tr_id = tr_id.replace('election-id-', '')
     assert tr_id.isdigit()
+    logger.debug("Election id %i", tr_id)
     url = downloadURL + tr_id
     name, contents = list(curl(url).items())[0]
     with open(DATA_DIR + name, 'wb') as fp:
