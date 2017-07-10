@@ -36,8 +36,12 @@ def process_one_year(which_year):
     for year in years(driver, which_year):
         print(year)
         for i in pages(driver):
-            for row in driver.find_elements_by_css_selector('tr.election_item'):
-                getCSV(row)
+            for row in driver.find_elements_by_css_selector(
+                    'tr.election_item'
+            ):
+                pass
+                # getCSV(row)
+
 
 from multiprocessing import Pool
 import logging

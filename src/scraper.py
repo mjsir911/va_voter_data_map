@@ -24,8 +24,9 @@ __module__      = ""
 DRIVER_PATH = 'include/phantomjs/phantomjs'
 URL = 'http://historical.elections.virginia.gov'
 DATA_DIR = 'data/'
-logger = logging.Logger('root')
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger()
+logging.basicConfig()
+logger.setLevel(logging.DEBUG)
 
 
 def debug(driver):
@@ -35,12 +36,12 @@ def debug(driver):
 def init():
     if os.path.exists(DRIVER_PATH):
         driver = selenium.webdriver.PhantomJS(DRIVER_PATH)
-        logging.info('Using local installation of phantomjs')
+        logger.info('Using local installation of phantomjs')
     else:
         driver = selenium.webdriver.PhantomJS()
-        logging.info('Using default installation of phantomjs')
+        logger.info('Using default installation of phantomjs')
     driver.get(URL)
-    logging.info('Going to page `{URL}`'.format(URL=URL))
+    logger.info('Going to page `{URL}`'.format(URL=URL))
     return driver
 
 
@@ -66,7 +67,7 @@ def getCSV(tablerow):
     url = downloadURL + tr_id
     name, contents = list(curl(url).items())[0]
     with open(DATA_DIR + name, 'wb') as fp:
-        logging.info('Writing file {}'.format(DATA_DIR + name))
+        logger.debug('Writing file {}'.format(DATA_DIR + name))
         fp.write(contents)
 
 
@@ -93,12 +94,12 @@ def years(driver, years=None):
         driver.find_element_by_css_selector(
             '#search_form_elections>div>#SearchIndexForm>div>input.splashy.tan'
         ).click()
-        logging.info(
+        logger.info(
             '''Clicking on search button to get all results from year
             {year}'''.format(year=year)
         )
         yield year
-        logging.info('Going back to search screen')
+        logger.info('Going back to search screen')
         driver.back()
 
 
@@ -113,7 +114,7 @@ def pages(driver):
         old = driver.find_element_by_css_selector('body').get_attribute(
             'innerHTML'
         )
-        logging.info('Fetching new page')
+        logger.info('Fetching new page')
         driver.find_element_by_css_selector(
             '#search_results_table_next'
         ).click()
