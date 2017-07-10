@@ -95,8 +95,8 @@ def years(driver, years=None):
             '#search_form_elections>div>#SearchIndexForm>div>input.splashy.tan'
         ).click()
         logger.info(
-            '''Clicking on search button to get all results from year
-            {year}'''.format(year=year)
+            'Clicking on search button to get all results from year '
+            '{year}'.format(year=year)
         )
         yield year
         logger.info('Going back to search screen')
