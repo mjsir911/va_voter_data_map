@@ -106,11 +106,7 @@ def years(driver, years=None):
 def pages(driver):
     old = False
     new = True
-    # maxcount = int(driver.find_element_by_css_selector('''#search_results_table_wrapper >
-            # div.fg-toolbar.ui-toolbar.ui-widget-header.ui-corner-bl.ui-corner-br.ui-helper-clearfix
-            # > div.dataTables_info''').get_attribute('innerHTML')[-10:].replace('items', ''))
     while old != new:
-        print(old == new)
         old = driver.find_element_by_css_selector('body').get_attribute(
             'innerHTML'
         )
