@@ -6,6 +6,8 @@ from scraper import *
 from selenium.webdriver.support.ui import Select
 import time
 
+import argparse
+
 __appname__     = ""
 __author__      = "Marco Sirabella"
 __copyright__   = ""
@@ -24,10 +26,16 @@ __module__      = ""
 #    year -= 1
 #    f = os.fork()
 
-#valid_years = list(years(init()))
+parser = argparse.ArgumentParser()
+parser.add_argument('-v', '--verbose', action='count', default=0)
+parser.add_argument('-t', '--threads', type=int, default=4)
+args = parser.parse_args()
+
+logging.basicConfig(level=30 - args.verbose * 10)
+
 browser = init()
 valid_years = [int(year.get_attribute('innerHTML')) for year in
-    browser.find_element_by_css_selector(
+               browser.find_element_by_css_selector(
         '#SearchYearFrom'
     ).find_elements_by_css_selector('option')
 ]
@@ -50,7 +58,7 @@ logger = logging.getLogger()
 timer = timeit.Timer()
 starttime = timer.timer()
 
-max_pool_count = 4
+max_pool_count = args.threads
 {
     8: 522.168079962008,
     4: 678.5831731929939,
