@@ -24,9 +24,7 @@ __module__      = ""
 DRIVER_PATH = 'include/phantomjs/phantomjs'
 URL = 'http://historical.elections.virginia.gov'
 DATA_DIR = 'data/'
-logger = logging.getLogger()
-logging.basicConfig()
-logger.setLevel(logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def debug(driver):
@@ -49,6 +47,7 @@ def curl(url):
     """
     http://stackoverflow.com/questions/7243750/download-file-from-web-in-python-3
     """
+    logger = logging.getLogger()
     logger.debug('Downloading {url}'.format(url=url))
     response = urllib.request.urlopen(url)
     filename = response.headers.get('Content-disposition')
@@ -61,10 +60,11 @@ downloadURL = URL + '/elections/download/'
 
 
 def getCSV(tablerow):
+    logger = logging.getLogger()
     tr_id = tablerow.get_attribute('id')
     tr_id = tr_id.replace('election-id-', '')
     assert tr_id.isdigit()
-    logger.debug("Election id %i", tr_id)
+    logger.debug("Election id %s", tr_id)
     url = downloadURL + tr_id
     name, contents = list(curl(url).items())[0]
     with open(DATA_DIR + name, 'wb') as fp:
