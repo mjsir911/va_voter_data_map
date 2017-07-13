@@ -56,7 +56,7 @@ def curl(url):
     return {filename: data}
 
 
-downloadURL = URL + '/elections/download/'
+downloadURL = URL + 'elections/download/{}/precincts_include:1/'
 
 
 def getCSV(tablerow):
@@ -65,7 +65,7 @@ def getCSV(tablerow):
     tr_id = tr_id.replace('election-id-', '')
     assert tr_id.isdigit()
     logger.debug("Election id %s", tr_id)
-    url = downloadURL + tr_id
+    url = downloadURL.format(tr_id)
     name, contents = list(curl(url).items())[0]
     with open(DATA_DIR + name, 'wb') as fp:
         logger.debug('Writing file {}'.format(DATA_DIR + name))
